@@ -1,4 +1,3 @@
-#Project Management Software Prototype
 Project work for IU by Tibor Péter Szabó.
 For the project to work, it is a requirement to have Python3 installed on the computer.
 To access the application use "localhost" in any browser after the server is running.
