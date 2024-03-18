@@ -1,0 +1,20 @@
+#mainPanel{
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#mainPanel p{
+    font-size: 3dvh;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    height: 5%;
+    width: 100%;
+    border: 1px solid lightgray;
+}
+.Online{
+    background-color: darkgreen;
+}
+.Offline{
+    background-color: darkred;
+}

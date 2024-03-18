@@ -1,0 +1,39 @@
+#mainPanel{
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#mainPanel div{
+    font-size: 3dvh;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    height: 5%;
+    width: 100%;
+    border: 1px solid lightgray;
+    display: flex;
+    flex-direction: row;
+}
+#mainPanel div *{
+    height: 100%;
+}
+#mainPanel a{
+    background-color: rgb(60, 60, 60);
+    text-decoration: none;
+    font-size: 3dvh;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    height: 5%;
+    width: 100%;
+    border: 1px solid lightgray;
+    display: flex;
+    flex-direction: row;
+}
+#mainPanel a:hover{
+    background-color: rgb(70, 70, 70);
+}
+#mainPanel a *{
+    padding-left: 1%;
+    color: black;
+    margin: 0;
+}

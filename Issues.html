@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="Default.css">
+    <link rel="stylesheet" href="Issues.css">
+    <meta charset="UTF-8">
+    <title>Prototype</title>
+    <script>
+        function getTasks(){
+            var mainPanel = document.getElementById("mainPanel");
+            var xmlreq = new XMLHttpRequest();
+                xmlreq.onload  = () => {
+                    var response = xmlreq.responseText.split("\n");
+                    console.log(response);
+                    var temp = "";
+                    for (task of response){
+                        temp+='<p>'+task.replaceAll("-","<br>")+'</p>';
+                    }
+                    mainPanel.innerHTML=temp;
+                };
+                xmlreq.open("GET", "/getIssues", true);
+                xmlreq.send();
+        }
+        function switchToPage(page){
+            window.location = page;
+        }
+        function Logout(){
+            //Other functions required to log out the user
+            switchToPage("/Login");
+        }
+    </script>
+</head>
+<body onload="getTasks()">
+    <div>
+        <div id="mainPanel">
+
+        </div>
+        <div id="sidePanel">
+            <div id="menus">
+                <button id="main" onclick="switchToPage('/Main')">Main</button>
+                <button id="users" onclick="switchToPage('/Users')">Users</button>
+                <button id="timeline" onclick="switchToPage('/Timeline')">Timeline</button>
+                <button id="tasks" onclick="switchToPage('/Tasks')">Tasks</button>
+                <button id="files" onclick="switchToPage('/Files')">Files</button>
+                <button id="issues" class="selected">Issues</button>
+            </div>
+            <button id="logout" onclick="Logout()">Logout</button>
+        </div>
+    </div>
+    <footer>
+        Made by Tibor Peter Szabo @ 2024
+    </footer>
+</body>
+</html>

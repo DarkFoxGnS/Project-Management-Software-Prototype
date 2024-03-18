@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="Default.css">
+    <link rel="stylesheet" href="Main.css">
+    <meta charset="UTF-8">
+    <title>Prototype</title>
+    <script>
+
+        function init(){
+            getUsers();
+            getTasks();
+            getFiles();
+            getIssues();
+        }
+
+        function getIssues(){
+            let userStatus = document.getElementById("issuesStatus");
+            let xmlreq = new XMLHttpRequest();
+            xmlreq.onload = () => {
+                let response= xmlreq.responseText.split("\n");
+                let issues = 0;
+                for (user of response){
+                        issues++;
+                }
+
+                userStatus.innerHTML = "Issues: "+issues;
+            }
+            xmlreq.open("GET","/getIssues",true);
+            xmlreq.send();
+        }
+
+        function getUsers(){
+            let userStatus = document.getElementById("userStatus");
+            let xmlreq = new XMLHttpRequest();
+            xmlreq.onload = () => {
+                let response= xmlreq.responseText.split("\n");
+                let allUser = response.length;
+                let activeUser = 0;
+                for (user of response){
+                    if (user.split("-")[2] == "Online"){
+                        activeUser++;
+                    }
+                }
+
+                userStatus.innerHTML = "Users currently active: "+activeUser+"/"+allUser;
+            }
+            xmlreq.open("GET","/getUsers",true);
+            xmlreq.send();
+        }
+
+        function getTasks(){
+            let taskAllStatus = document.getElementById("taskAllStatus");
+            let taskDoneStatus = document.getElementById("taskDoneStatus");
+            let taskWaitingStatus = document.getElementById("taskWaitingStatus");
+            let taskNotDoneStatus = document.getElementById("taskNotDoneStatus");
+
+            let xmlreq = new XMLHttpRequest();
+            xmlreq.onload = () => {
+                let response= xmlreq.responseText.split("\n");
+
+                let allTasks = response.length;
+                let doneTasks = 0;
+                let waitingTasks = 0;
+                let notDoneTasks = 0;
+
+                for(let i = 0; i < response.length;i++){
+                    switch (response[i].split("-")[2]){
+
+                        case "Done":
+                            doneTasks++;
+                            break;
+                        case "CurrentlyDoing":
+                            waitingTasks++;
+                            break;
+                        case "NotDone":
+                            notDoneTasks++;
+                            break;
+                    }
+                }
+
+                taskAllStatus.innerHTML = "Task count: "+allTasks;
+                taskDoneStatus.innerHTML = "Tasks done: "+doneTasks;
+                taskWaitingStatus.innerHTML = "Tasks being done currently: "+waitingTasks;
+                taskNotDoneStatus.innerHTML = "Tasks not done: "+notDoneTasks;
+            }
+            xmlreq.open("GET","/getTasks",true);
+            xmlreq.send();
+        }
+
+        function getFiles(){
+            let fileStatus = document.getElementById("fileStatus");
+            let xmlreq = new XMLHttpRequest();
+            xmlreq.onload = () => {
+                let response = xmlreq.responseText.split("\n");
+                fileStatus.innerHTML = "Files available: "+(response.length-1);
+            }
+            xmlreq.open("GET","/fileSystem",true);
+            xmlreq.send();
+        }
+
+        function switchToPage(page){
+            window.location = page;
+        }
+        function Logout(){
+            //Other functions required to log out the user
+            switchToPage("/Login");
+        }
+    </script>
+</head>
+<body onload="init()">
+    <div>
+        <div id="mainPanel">
+            <div id="userStatus"></div>
+            <div id="taskAllStatus"></div>
+            <div id="taskDoneStatus"></div>
+            <div id="taskWaitingStatus"></div>
+            <div id="taskNotDoneStatus"></div>
+            <div id="fileStatus"></div>
+            <div id="issuesStatus"></div>
+        </div>
+        <div id="sidePanel">
+            <div id="menus">
+                <button id="main" class="selected">Main</button>
+                <button id="users" onclick="switchToPage('/Users')">Users</button>
+                <button id="timeline" onclick="switchToPage('/Timeline')">Timeline</button>
+                <button id="tasks" onclick="switchToPage('/Tasks')">Tasks</button>
+                <button id="files" onclick="switchToPage('/Files')">Files</button>
+                <button id="issues" onclick="switchToPage('/Issues')">Issues</button>
+            </div>
+            <button id="logout" onclick="Logout()">Logout</button>
+        </div>
+    </div>
+    <footer>
+        Made by Tibor Peter Szabo @ 2024
+    </footer>
+</body>
+</html>

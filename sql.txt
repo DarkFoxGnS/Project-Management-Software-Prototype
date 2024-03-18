@@ -1,0 +1,78 @@
+/*MADE BY TIBOR PÉTER SZABÓ*/
+/*TABLE DEFINITIONS*/
+
+CREATE TABLE AccessType(
+id INTEGER,
+name TEXT
+);
+INSERT INTO AccessType VALUES(0,"Developer");
+INSERT INTO AccessType VALUES(1,"Tester");
+INSERT INTO AccessType VALUES(2,"Manager");
+
+CREATE TABLE Status(
+id INTEGER,
+name TEXT
+);
+INSERT INTO Status VALUES(0,"Done");
+INSERT INTO Status VALUES(1,"CurrentlyDoing");
+INSERT INTO Status VALUES(2,"NotDone");
+
+CREATE TABLE LoginState(
+id INTEGER,
+name TEXT
+);
+INSERT INTO LoginState VALUES(0,"Online");
+INSERT INTO LoginState VALUES(1,"Offline");
+
+CREATE TABLE User(
+name TEXT,
+loginState INTEGER,
+username TEXT,
+password TEXT,
+accessType INTEGER
+);
+INSERT INTO User VALUES ("Leopold Celeste",0,"Leopold","P@ssw0rd",0);
+INSERT INTO User VALUES ("Drummond Dylan",0,"Drummond","P@ssw0rd",1);
+INSERT INTO User VALUES ("Gretchen Helier",1,"Gretchen","P@ssw0rd",1);
+INSERT INTO User VALUES ("Lark Galilea",1,"Lark","P@ssw0rd",1);
+INSERT INTO User VALUES ("Lara Cornell",0,"Lara","P@ssw0rd",1);
+INSERT INTO User VALUES ("Ty Reagan",1,"Ty","P@ssw0rd",1);
+INSERT INTO User VALUES ("Cordula Morley",0,"Cordula","P@ssw0rd",2);
+INSERT INTO User VALUES ("Osbert Mia",0,"Osbert","P@ssw0rd",2);
+INSERT INTO User VALUES ("Esta Queenie",1,"Esta","P@ssw0rd",2);
+INSERT INTO User VALUES ("Byron Thibaut",1,"Byron","P@ssw0rd",1);
+
+CREATE TABLE Task(
+isSubtask BOOLEAN,
+description TEXT,
+status INTEGER,
+users TEXT,
+startTime TEXT,
+endTime TEXT
+);
+INSERT INTO Task VALUES (False,"1. Make Server page",0,"","2024.02.10","2024.03.10");
+INSERT INTO Task VALUES (False,"2. Design Webpage page",0,"","2024.02.10","2024.03.10");
+INSERT INTO Task VALUES (True,"2.1 Design Users page",0,"","","");
+INSERT INTO Task VALUES (True,"2.2 Design Tasks page",0,"","","");
+INSERT INTO Task VALUES (True,"2.3 Design Files page",0,"","","");
+INSERT INTO Task VALUES (True,"2.4 Design Main page",0,"","","");
+INSERT INTO Task VALUES (False,"3. Make Webpage",1,"(Leopold Celeste,Drummond Dylan)","2024.03.15","2024.04.15");
+INSERT INTO Task VALUES (True,"3.1 Users page",0,"","","");
+INSERT INTO Task VALUES (True,"3.2 Tasks page",1,"(Leopold Celeste)","","");
+INSERT INTO Task VALUES (True,"3.3 Files page",1,"(Drummond Dylan)","","");
+INSERT INTO Task VALUES (True,"3.4 Main page",2,"","","");
+INSERT INTO Task VALUES (False,"4. Create test data",1,"(Cordula Morley)","2024.03.15","2024.04.20");
+INSERT INTO Task VALUES (True,"4.1 Create Users test data",0,"","","");
+INSERT INTO Task VALUES (True,"4.2 Create Tasks test data",1,"","","");
+INSERT INTO Task VALUES (True,"4.3 Create Files test data",1,"(Cordula Morley)","","");
+INSERT INTO Task VALUES (False,"5. Do internal testing",1,"(Lara Cornell)","2024.03.15","2024.04.30");
+INSERT INTO Task VALUES (True,"5.1 Test Communication",0,"","","");
+INSERT INTO Task VALUES (True,"5.2 Test website display on multiple devices",1,"(Lara Cornell)","","");
+INSERT INTO Task VALUES (False,"6. Test open public",2,"","2024.04.30","2024.05.31");
+
+CREATE TABLE Issue(
+description TEXT,
+date TEXT,
+user TEXT
+);
+INSERT INTO Issue VALUES ("Login allows everybody in.","2024.03.15","(Osbert Mia)");

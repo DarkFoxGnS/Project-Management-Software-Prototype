@@ -1,0 +1,74 @@
+html{
+    background-color: rgb(30, 30, 30);
+}
+body{
+    margin-top: 1dvh;
+    margin-bottom: 1dvh;
+    margin-left: 1dvw;
+    margin-right: 1dvw;
+
+    border: 1px solid lightgray;
+    height: calc(98dvh - 2px);
+    width: calc(98dvw - 2px);
+}
+body div{
+    height: 95%;
+    width: 100%;
+    display: flex;
+}
+#mainPanel{
+    height: 100%;
+    width: 80%;
+    background-color: rgb(50, 50, 50);
+}
+#sidePanel{
+    border-left: 1px solid lightgray;
+    height: 100%;
+    width: 20%;
+    background-color: rgb(40, 40, 40);
+    display: flex;
+    flex-direction: column;
+}
+
+.selected {
+    background-color: rgb(110, 110, 110) !important;
+}
+#menus {
+    height: 90%;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    flex-flow: column;;
+}
+#menus button{
+    font-size: 3dvh;
+    border: 1px lightgray solid;
+    margin: 2% 2% 0px 2%;
+    height: 10%;
+    border-radius: 9999px;
+    background-color: rgb(50, 50, 50);
+}
+
+#menus button:hover{
+    background-color: rgb(60, 60, 60);
+}
+
+#logout{
+    border: 0px black solid;
+    border-top: 1px lightgray solid;
+    background-color: darkred !important;
+    width: 100%;
+    height: 10%;
+}
+
+#logout:hover{
+    background-color: red !important;
+}
+
+footer{
+    height: 5%;
+    font-size: 3dvh;
+    border-top: 1px lightgray solid;
+    text-align: center;
+    color: lightgray;
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="Default.css">
+    <link rel="stylesheet" href="Timeline.css">
+    <meta charset="UTF-8">
+    <title>Prototype</title>
+    <script>
+
+        var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+        function generateCalendar(date1, date2) {
+            let calendar = [];
+            let startDate = date1;
+            let endDate = date2;
+            startDate.setDate(date1.getDate() - (date1.getDay() - 1));
+            endDate.setDate(date2.getDate() + (7 - date2.getDay()));
+            let daycount = Math.ceil((endDate - startDate) / 86400000) + 1;
+
+            for (let i = 0; i < daycount; i++) {
+                let currentDate = new Date(startDate);
+                currentDate.setDate(currentDate.getDate() + i);
+                calendar.push(currentDate);
+            }
+            return calendar;
+        }
+        function getTasks() {
+            let mainPanel = document.getElementById("mainPanel");
+            let dates = [];
+            let calendar = [];
+            let temp = "";
+            let xmlreq = new XMLHttpRequest();
+            xmlreq.onload = () => {
+                let response = xmlreq.responseText.split("\n");
+                //add tasks
+                for (task of response) {
+                    if (task.split("-")[0] == "1") { continue; }
+                    let date = task.split("-")[task.split("-").length - 1];
+                    let date2 = task.split("-")[task.split("-").length - 2];
+                    dates.push(new Date(date));
+                    dates.push(new Date(date2));
+                }
+                dates.push(new Date());
+                dates.sort(function (a, b) {
+                    return a - b;
+                });
+                calendar = generateCalendar(dates[0], dates[dates.length - 1]);
+
+                for (date of calendar) {
+                    temp += '<div class="day" id="' + date.getFullYear() + "." + date.getMonth() + "." + date.getDate() + '"><p class="header">' + date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate() + ' ' + days[date.getDay()] + '</p></div>';
+                }
+
+                //fill tasks
+                mainPanel.innerHTML = temp;
+
+                for (task of response) {
+                    if (task.split("-")[0] == "1") { continue; }
+                    let startDate = new Date(task.split("-")[task.split("-").length - 2]);
+                    let endDate = new Date(task.split("-")[task.split("-").length - 1]);
+                    let daycount = Math.ceil((endDate - startDate) / 86400000) + 1;
+
+                    for (let i = 0; i < daycount; i++) {
+                        let currentDate = new Date(startDate);
+                        currentDate.setDate(currentDate.getDate() + i);
+                        let dayElement = document.getElementById(currentDate.getFullYear() + "." + currentDate.getMonth() + "." + currentDate.getDate());
+                        dayElement.innerHTML += '<p class="' + task.split('-')[2] + '">' + task.split('-')[1] + '</p>';
+                    }
+                }
+
+                //addToday
+                let currentDate = new Date();
+                let dayElement = document.getElementById(currentDate.getFullYear() + "." + currentDate.getMonth() + "." + currentDate.getDate());
+                dayElement.classList+=" today";
+                //scroll to today
+                mainPanel.scroll(0,0);
+                mainPanel.scroll(0,dayElement.getBoundingClientRect().y-mainPanel.getBoundingClientRect().y);
+            };
+            xmlreq.open("GET", "/getTasks", true);
+            xmlreq.send();
+        }
+        function switchToPage(page) {
+            window.location = page;
+        }
+        function Logout() {
+            //Other functions required to log out the user
+            switchToPage("/Login");
+        }
+    </script>
+</head>
+
+<body onload="getTasks()">
+    <div>
+        <div id="mainPanel">
+
+        </div>
+        <div id="sidePanel">
+            <div id="menus">
+                <button id="main" onclick="switchToPage('/Main')">Main</button>
+                <button id="users" onclick="switchToPage('/Users')">Users</button>
+                <button id="timeline" class="selected">Timeline</button>
+                <button id="tasks" onclick="switchToPage('/Tasks')">Tasks</button>
+                <button id="files" onclick="switchToPage('/Files')">Files</button>
+                <button id="issues" onclick="switchToPage('/Issues')">Issues</button>
+            </div>
+            <button id="logout" onclick="Logout()">Logout</button>
+        </div>
+    </div>
+    <footer>
+        Made by Tibor Peter Szabo @ 2024
+    </footer>
+</body>
+
+</html>

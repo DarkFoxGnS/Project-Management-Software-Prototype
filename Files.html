@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="Default.css">
+    <link rel="stylesheet" href="Files.css">
+    <meta charset="UTF-8">
+    <title>Prototype</title>
+    <script>
+        function sendFile(){
+            let file = document.getElementById("fileUpload").files[0];
+            let reader = new FileReader();
+            reader.readAsText(file, "UTF-8");
+            reader.onload = function (evt) {
+                let dataToBeSent = file.name+":";
+                dataToBeSent+=evt.target.result.replaceAll(":","%58").replaceAll("\n","%10")+":";
+                dataToBeSent+=file.size;
+                console.log(dataToBeSent);
+                let xmlreq = new XMLHttpRequest();
+                xmlreq.onreadystatechange = () =>{
+                    if (xmlreq.responseText == "201 Created"){
+                        window.location = "/files";
+                    }
+                }
+                xmlreq.open("POST","/fileSystem");
+                xmlreq.send(dataToBeSent);
+            }
+        }
+        function getFiles(){
+            let mainPanel = document.getElementById("mainPanel");
+            let xmlreq = new XMLHttpRequest();
+                xmlreq.onload  = () => {
+                    let response = xmlreq.responseText.split("\n");
+                    let temp = "";
+                    for (let i = 0;i < response.length-1; i++){
+                        //temp+='<div><p>'+response[i]+'</p><a href="/files/'+response[i]+'" download>Download</a>'+'</div>';
+                        temp+='<a href="/files/'+response[i]+'" download><p>'+response[i]+'</p></a>';
+                    }
+                    temp+= '<div><input type="file" id="fileUpload"><button onclick="sendFile()">Upload file</button>Only UTF-8 encoded files can be uploaded!</div>';
+
+                    mainPanel.innerHTML=temp;
+                };
+                xmlreq.open("GET", "/fileSystem", true);
+                xmlreq.send();
+        }
+
+
+
+        function switchToPage(page){
+            window.location = page;
+        }
+        function Logout(){
+            //Other functions required to log out the user
+            switchToPage("/Login");
+        }
+    </script>
+</head>
+<body onload="getFiles()">
+    <div>
+        <div id="mainPanel">
+
+        </div>
+        <div id="sidePanel">
+            <div id="menus">
+                <button id="main" onclick="switchToPage('/Main')">Main</button>
+                <button id="users" onclick="switchToPage('/Users')">Users</button>
+                <button id="timeline" onclick="switchToPage('/Timeline')">Timeline</button>
+                <button id="tasks" onclick="switchToPage('/Tasks')">Tasks</button>
+                <button id="files" class="selected" >Files</button>
+                <button id="issues" onclick="switchToPage('/Issues')">Issues</button>
+            </div>
+            <button id="logout" onclick="Logout()">Logout</button>
+        </div>
+    </div>
+    <footer>
+        Made by Tibor Peter Szabo @ 2024
+    </footer>
+</body>
+</html>

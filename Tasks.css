@@ -1,0 +1,26 @@
+#mainPanel{
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#mainPanel p{
+    font-size: 3dvh;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    height: auto;
+    width: 100%;
+    border: 1px solid lightgray;
+}
+.Done{
+    background-color: darkgreen;
+}
+.CurrentlyDoing{
+    background-color: darkgoldenrod;
+}
+.NotDone{
+    background-color: darkred;
+}
+.subtask{
+    padding-left: 5%;
+}

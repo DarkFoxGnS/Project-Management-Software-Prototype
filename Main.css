@@ -1,0 +1,17 @@
+#mainPanel{
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#mainPanel div{
+    background-color: rgb(60, 60, 60);
+    font-size: 3dvh;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    height: 5%;
+    width: 100%;
+    border: 1px solid lightgray;
+    display: flex;
+    flex-direction: row;
+}
